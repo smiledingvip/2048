@@ -6,7 +6,7 @@ var animate = (function(){
 	 *移动到位后再将复制的那份删除
 	 */
 	var moveHoriz=function(i, j, k){
-		var move = $("#square_cell"+"-"+i+"-"+k).clone();
+		var move = $("#square_cell"+"-"+i+"-"+k).clone().addClass('clone');
 		move.css({
 					"top" : 15*(i+1)+100*i+'px',
 					"left" : 15*(k+1)+100*k+'px',
@@ -30,7 +30,7 @@ var animate = (function(){
 	 *移动到位后再将复制的那份删除
 	 */
 	var moveVert=function(i, j, k){
-		var move = $("#square_cell"+"-"+k+"-"+i).clone();
+		var move = $("#square_cell"+"-"+k+"-"+i).clone().addClass('clone');
 		move.css({
 					"top" : 15*(k+1)+100*k+'px',
 					"left" : 15*(i+1)+100*i+'px',

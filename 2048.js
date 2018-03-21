@@ -57,7 +57,7 @@ Run2048.prototype = {
 									support.colorCheck(_this.arr[i][j], i, j);
 								}
 							}
-						},250);
+						},150);
 						
 						_this.gameOver(_this.arr);
 					}
@@ -73,7 +73,7 @@ Run2048.prototype = {
 									support.colorCheck(_this.arr[i][j], i, j);
 								}
 							}
-						},250);
+						},150);
 						_this.gameOver(_this.arr);
 					}
 					break;
@@ -88,7 +88,7 @@ Run2048.prototype = {
 									support.colorCheck(_this.arr[i][j], i, j);
 								}
 							}
-						},250);
+						},150);
 						_this.gameOver(_this.arr);
 					}
 					break;
@@ -103,7 +103,7 @@ Run2048.prototype = {
 									support.colorCheck(_this.arr[i][j], i, j);
 								}
 							}
-						},250);
+						},150);
 						_this.gameOver(_this.arr);
 					}
 					break;	
@@ -124,32 +124,33 @@ Run2048.prototype = {
 	moveLeft:function(){
 		var moveable=[];
 		var _this=this.arr;
-		for(var i=0; i<4; i++){
-			if(support.canMoveLeft(this.arr[i])){
-				moveable[i]=1;
-				for(var j=0; j<4; j++){
-					for(var k=j+1; k<4; k++){
-						if(this.arr[i][j] == 0 && this.arr[i][k] != 0){
-							animate.moveHoriz(i, j, k);
-							this.arr[i][j] = this.arr[i][k];
-							this.arr[i][k] = 0;
+		if(!$('.clone').is(':animated')){
+			for(var i=0; i<4; i++){
+				if(support.canMoveLeft(this.arr[i])){
+					moveable[i]=1;
+					for(var j=0; j<4; j++){
+						for(var k=j+1; k<4; k++){
+							if(this.arr[i][j] == 0 && this.arr[i][k] != 0){
+								animate.moveHoriz(i, j, k);
+								this.arr[i][j] = this.arr[i][k];
+								this.arr[i][k] = 0;
+							}
+							if(this.arr[i][j] != 0 && this.arr[i][j] == this.arr[i][k]){
+								animate.moveHoriz(i, j, k);
+								this.arr[i][j] = this.arr[i][j]+this.arr[i][k];
+								this.arr[i][k] = 0;
+								break;
+							}
+							if(this.arr[i][j] != 0 && this.arr[i][k] >0 && this.arr[i][k] != this.arr[i][j]){
+								break;
+							}
 						}
-						if(this.arr[i][j] != 0 && this.arr[i][j] == this.arr[i][k]){
-							animate.moveHoriz(i, j, k);
-							this.arr[i][j] = this.arr[i][j]+this.arr[i][k];
-							this.arr[i][k] = 0;
-							break;
-						}
-						if(this.arr[i][j] != 0 && this.arr[i][k] >0 && this.arr[i][k] != this.arr[i][j]){
-							break;
-						}
+						
 					}
 					
 				}
-				
 			}
 		}
-
 		
 		for(var i=0; i<4; i++){
 			// alert(_this);
@@ -167,29 +168,31 @@ Run2048.prototype = {
 	 */
 	moveRight:function(){
 		var moveable=[];
-		for(var i=0; i<4; i++){
-			if(support.canMoveRight(this.arr[i])){
-				moveable[i]=1;
-				for(var j=3; j>=0; j--){
-					for(var k=j-1; k>=0; k--){
-						if(this.arr[i][j] == 0 && this.arr[i][k] != 0){
-							animate.moveHoriz(i, j, k);
-							this.arr[i][j] = this.arr[i][k];
-							this.arr[i][k] = 0;
+		if(!$('.clone').is(':animated')){
+			for(var i=0; i<4; i++){
+				if(support.canMoveRight(this.arr[i])){
+					moveable[i]=1;
+					for(var j=3; j>=0; j--){
+						for(var k=j-1; k>=0; k--){
+							if(this.arr[i][j] == 0 && this.arr[i][k] != 0){
+								animate.moveHoriz(i, j, k);
+								this.arr[i][j] = this.arr[i][k];
+								this.arr[i][k] = 0;
+							}
+							if(this.arr[i][j] != 0 && this.arr[i][j] == this.arr[i][k]){
+								animate.moveHoriz(i, j, k);
+								this.arr[i][j] = this.arr[i][j]+this.arr[i][k];
+								this.arr[i][k] = 0;
+								break;
+							}
+							if(this.arr[i][j] != 0 && this.arr[i][k] >0 && this.arr[i][k] != this.arr[i][j]){
+								break;
+							}
 						}
-						if(this.arr[i][j] != 0 && this.arr[i][j] == this.arr[i][k]){
-							animate.moveHoriz(i, j, k);
-							this.arr[i][j] = this.arr[i][j]+this.arr[i][k];
-							this.arr[i][k] = 0;
-							break;
-						}
-						if(this.arr[i][j] != 0 && this.arr[i][k] >0 && this.arr[i][k] != this.arr[i][j]){
-							break;
-						}
+						
 					}
 					
 				}
-				
 			}
 		}
 		for(var i=0; i<4; i++){
@@ -206,28 +209,30 @@ Run2048.prototype = {
 	moveTop:function(){
 		var moveable=[];
 		var temp=[];
-		for(var i=0; i<4; i++){
-			temp=[this.arr[0][i], this.arr[1][i], this.arr[2][i], this.arr[3][i]];
-			if(support.canMoveTop(temp)){
-				moveable[i]=1;
-				for(var j=0; j<4; j++){
-					for(var k=j+1; k<4; k++){
-						if(temp[j] == 0 && temp[k] != 0){
-							animate.moveVert(i, j, k);
-							temp[j] = temp[k];
-							temp[k] = 0;
+		if(!$('.clone').is(':animated')){
+			for(var i=0; i<4; i++){
+				temp=[this.arr[0][i], this.arr[1][i], this.arr[2][i], this.arr[3][i]];
+				if(support.canMoveTop(temp)){
+					moveable[i]=1;
+					for(var j=0; j<4; j++){
+						for(var k=j+1; k<4; k++){
+							if(temp[j] == 0 && temp[k] != 0){
+								animate.moveVert(i, j, k);
+								temp[j] = temp[k];
+								temp[k] = 0;
+							}
+							if(temp[j] != 0 && temp[j] == temp[k]){
+								animate.moveVert(i, j, k);
+								temp[j] = temp[j] + temp[k];
+								temp[k] = 0;
+								break;
+							}
+							if(temp[j] != 0 && temp[k] >0 && temp[k] != temp[j]){
+								break;
+							}
 						}
-						if(temp[j] != 0 && temp[j] == temp[k]){
-							animate.moveVert(i, j, k);
-							temp[j] = temp[j] + temp[k];
-							temp[k] = 0;
-							break;
-						}
-						if(temp[j] != 0 && temp[k] >0 && temp[k] != temp[j]){
-							break;
-						}
+						this.arr[j][i] = temp[j];
 					}
-					this.arr[j][i] = temp[j];
 				}
 			}
 		}
@@ -246,28 +251,30 @@ Run2048.prototype = {
 	moveBottom:function(){
 		var moveable=[];
 		var temp=[];
-		for(var i=0; i<4; i++){
-			temp=[this.arr[0][i], this.arr[1][i], this.arr[2][i], this.arr[3][i]];
-			if(support.canMoveBottom(temp)){
-				moveable[i]=1;
-				for(var j=3; j>=0; j--){
-					for(var k=j-1; k>=0; k--){
-						if(temp[j] == 0 && temp[k] != 0){
-							animate.moveVert(i, j, k);
-							temp[j] = temp[k];
-							temp[k] = 0;
+		if(!$('.clone').is(':animated')){
+			for(var i=0; i<4; i++){
+				temp=[this.arr[0][i], this.arr[1][i], this.arr[2][i], this.arr[3][i]];
+				if(support.canMoveBottom(temp)){
+					moveable[i]=1;
+					for(var j=3; j>=0; j--){
+						for(var k=j-1; k>=0; k--){
+							if(temp[j] == 0 && temp[k] != 0){
+								animate.moveVert(i, j, k);
+								temp[j] = temp[k];
+								temp[k] = 0;
+							}
+							if(temp[j] != 0 && temp[j] == temp[k]){
+								animate.moveVert(i, j, k);
+								temp[j] = temp[j] + temp[k];
+								temp[k] = 0;
+								break;
+							}
+							if(temp[j] != 0 && temp[k] >0 && temp[k] != temp[j]){
+								break;
+							}
 						}
-						if(temp[j] != 0 && temp[j] == temp[k]){
-							animate.moveVert(i, j, k);
-							temp[j] = temp[j] + temp[k];
-							temp[k] = 0;
-							break;
-						}
-						if(temp[j] != 0 && temp[k] >0 && temp[k] != temp[j]){
-							break;
-						}
+						this.arr[j][i] = temp[j];
 					}
-					this.arr[j][i] = temp[j];
 				}
 			}
 		}
